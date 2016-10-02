@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IdentifyBookApp</string>
+    <string name="main_button_find_book">Find Book</string>
+    <string name="main_button_manager">Manager Mode</string>
+    <string name="findbook_button_scan_barcode">Scan Barcode</string>
+    <string name="findbook_button_nfc">NFC</string>
+    <string name="findbook_button_reverse_image_search">Reverse Image Search</string>
+    <string name="findbook_button_ocr">OCR</string>
+    <string name="scan_nfc_default_text">Place your phone on top of the RFID tag. Hold it until the tag is detected</string>
+
+
+</resources>

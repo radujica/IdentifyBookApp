@@ -1,17 +1,21 @@
 package com.example.dimebag.identifybookapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+/*Main TODO:
+  - copy OCR file with app
 
-    private static final String TAG = "MainActivity";
+ */
 
+public class ActivityMain extends AppCompatActivity {
+
+    private static final String TAG = "ActivityMain";
     private static final int REQUEST_CODE_FIND_BOOK = 0;
 
     @Override
@@ -49,7 +53,7 @@ public class MainActivity extends Activity {
         buttonScanBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_findBook = new Intent(MainActivity.this, FindBook.class);
+                Intent intent_findBook = new Intent(ActivityMain.this, ActivityFindBook.class);
                 //intent_scanBook.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //TODO: don't start findBook multiple times
                 startActivityForResult(intent_findBook, REQUEST_CODE_FIND_BOOK);
             }
@@ -62,7 +66,7 @@ public class MainActivity extends Activity {
         buttonSwitchToManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_switchToManager = new Intent(MainActivity.this, Manager.class);
+                Intent intent_switchToManager = new Intent(ActivityMain.this, ActivityManager.class);
                 startActivity(intent_switchToManager);
             }
         });
@@ -73,7 +77,7 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_FIND_BOOK){
             if (resultCode == RESULT_OK) {
-                String isbn = data.getExtras().getString(FindBook.INTENT_EXTRA_ISBN);
+                String isbn = data.getExtras().getString(ActivityFindBook.INTENT_EXTRA_ISBN);
                 Intent intentViewBookOnAmazon = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://www.amazon.com/s/field-keywords=" + isbn));
                 startActivity(intentViewBookOnAmazon);

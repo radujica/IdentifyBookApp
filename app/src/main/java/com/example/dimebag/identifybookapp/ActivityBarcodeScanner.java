@@ -3,15 +3,16 @@ package com.example.dimebag.identifybookapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class BarcodeScanner extends Activity implements ZXingScannerView.ResultHandler {
+public class ActivityBarcodeScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
-    private final static String TAG = "BarcodeScanner";
+    private final static String TAG = "ActivityBarcodeScanner";
 
     static final String INTENT_EXTRA_NUMBER = "number";
     static final String INTENT_EXTRA_FORMAT = "format";

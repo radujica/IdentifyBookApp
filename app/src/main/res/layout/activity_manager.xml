@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_manager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.dimebag.identifybookapp.ActivityManager">
+
+    <Button
+        android:layout_height="wrap_content"
+        android:text="@string/manager_button_create_display"
+        android:id="@+id/manager_button_create_display"
+        android:layout_marginTop="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="140dp" />
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="@string/manager_button_switch_to_user"
+        android:id="@+id/manager_button_switch_to_user"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_height="wrap_content"
+        android:text="@string/manager_button_view_displays"
+        android:id="@+id/manager_button_view_displays"
+        android:layout_below="@+id/manager_button_create_display"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_width="140dp"
+        android:layout_centerInParent="false" />
+
+</RelativeLayout>

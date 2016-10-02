@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityMain"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScanNFC"
+            android:name=".ActivityScanNFC"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
@@ -45,22 +45,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FindBook"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ShowInfo"
+            android:name=".ActivityFindBook"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Crop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Manager"
+            android:name=".ActivityManager"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DisplayInfo"
+            android:name=".ActivityBarcodeScanner"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BarcodeScanner"
+            android:name=".ActivityDisplay"
             android:screenOrientation="portrait" />
     </application>
 

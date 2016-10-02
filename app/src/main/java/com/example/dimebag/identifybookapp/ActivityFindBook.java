@@ -1,8 +1,11 @@
 package com.example.dimebag.identifybookapp;
 
 /*TODO:
-    - copy OCR file with app
     - implement server on raspberry pi
+
+  Possible:
+    - switch to instance id? String iid = InstanceID.getInstance(context).getId()
+    - perhaps upload interactions in batches, e.g. when app onStop
  */
 
 import android.Manifest;
@@ -15,6 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,9 +37,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class FindBook extends Activity {
+public class ActivityFindBook extends AppCompatActivity {
 
-    private static final String TAG = "FindBook";
+    private static final String TAG = "ActivityFindBook";
     private static final String NOT_FOUND = "Could not find book. Please try again or use another search option";
     private static final int PERMISSION_CAMERA = 100000;
     private static final int REQUEST_CODE_BARCODE = 100;
@@ -96,7 +100,7 @@ public class FindBook extends Activity {
         buttonScanNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(FindBook.this, ScanNFC.class), REQUEST_CODE_NFC_SCAN);
+                startActivityForResult(new Intent(ActivityFindBook.this, ActivityScanNFC.class), REQUEST_CODE_NFC_SCAN);
             }
         });
     }
@@ -129,11 +133,11 @@ public class FindBook extends Activity {
         switch (requestCode) {
             case REQUEST_CODE_BARCODE:
                 if (resultCode == RESULT_OK) {
-                    String number = data.getExtras().getString(BarcodeScanner.INTENT_EXTRA_NUMBER);
-                    String format = data.getExtras().getString(BarcodeScanner.INTENT_EXTRA_FORMAT);
+                    String number = data.getExtras().getString(ActivityBarcodeScanner.INTENT_EXTRA_NUMBER);
+                    String format = data.getExtras().getString(ActivityBarcodeScanner.INTENT_EXTRA_FORMAT);
                     if (checkProperISBNFromBarcode(number, format)) {
                         //storeInteractionOnServer(number, "barcode");           //TODO: remove comment when possible
-                        returnResultToMain(number);
+                        returnResultToActivity(number);
                     }
                 } else if (resultCode == RESULT_CANCELED) {
                     Log.i(TAG, "canceled reading barcode ");
@@ -143,9 +147,9 @@ public class FindBook extends Activity {
                 break;
             case REQUEST_CODE_NFC_SCAN:
                 if (resultCode == RESULT_OK) {
-                    String number = data.getExtras().getString(ScanNFC.INTENT_EXTRA_NUMBER);
+                    String number = data.getExtras().getString(ActivityScanNFC.INTENT_EXTRA_NUMBER);
                     //storeInteractionOnServer(number, "nfc");                  //TODO: remove comment when possible
-                    returnResultToMain(number);
+                    returnResultToActivity(number);
                 } else if (resultCode == RESULT_CANCELED) {
                     Log.i(TAG, "canceled reading barcode ");
                 } else {
@@ -167,7 +171,7 @@ public class FindBook extends Activity {
         if (format.equals("EAN_13")) {
             return true;
         } else {
-            Toast.makeText(FindBook.this,"Found different barcode type: " + format,Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityFindBook.this,"Found different barcode type: " + format,Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -215,8 +219,7 @@ public class FindBook extends Activity {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 Log.i(TAG,"data server response when uploading data: " + response.body().string());  //if removing log, close response body!
             } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(TAG,"error uploading data to server");
+                Log.e(TAG,"error uploading data to server: " + e.getMessage());
                 if (response != null) {
                     response.body().close();
                 }
@@ -225,17 +228,17 @@ public class FindBook extends Activity {
         }
     }
 
-    private void returnResultToMain(String number) {
-        Intent intent_returnToMain = new Intent();
-        intent_returnToMain.putExtra(INTENT_EXTRA_ISBN, number);
-        setResult(Activity.RESULT_OK, intent_returnToMain);
+    private void returnResultToActivity(String number) {
+        Intent intent_returnToActivity = new Intent();
+        intent_returnToActivity.putExtra(INTENT_EXTRA_ISBN, number);
+        setResult(Activity.RESULT_OK, intent_returnToActivity);
         finish();
     }
 
     private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(FindBook.this,
+        if (ContextCompat.checkSelfPermission(ActivityFindBook.this,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(FindBook.this,
+            ActivityCompat.requestPermissions(ActivityFindBook.this,
                     new String[]{Manifest.permission.CAMERA},
                     PERMISSION_CAMERA);
         }
@@ -248,9 +251,9 @@ public class FindBook extends Activity {
             case PERMISSION_CAMERA:
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(FindBook.this, "This functionality requires the camera", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ActivityFindBook.this, "This functionality requires the camera", Toast.LENGTH_LONG).show();
                     } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                        startActivityForResult(new Intent(FindBook.this, BarcodeScanner.class),REQUEST_CODE_BARCODE);
+                        startActivityForResult(new Intent(ActivityFindBook.this, ActivityBarcodeScanner.class),REQUEST_CODE_BARCODE);
                     } else {
                         Log.w(TAG,"something weird happened when requesting camera permission: " + Arrays.toString(grantResults));
                         finish();

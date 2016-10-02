@@ -10,6 +10,7 @@ import android.nfc.Tag;
 import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,9 +18,9 @@ import java.io.IOException;
 
 //TODO: automatically start scanning; display result
 
-public class ScanNFC extends Activity {
+public class ActivityScanNFC extends AppCompatActivity {
 
-    private static final String TAG = "ScanNFC";
+    private static final String TAG = "ActivityScanNFC";
     static final String INTENT_EXTRA_NUMBER = "number";
 
     private NfcAdapter nfcAdapter;

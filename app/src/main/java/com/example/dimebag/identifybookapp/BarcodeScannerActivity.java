@@ -10,9 +10,9 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ActivityBarcodeScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class BarcodeScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
-    private final static String TAG = "ActivityBarcodeScanner";
+    private final static String TAG = "BarcodeScannerActivity";
 
     static final String INTENT_EXTRA_NUMBER = "number";
     static final String INTENT_EXTRA_FORMAT = "format";

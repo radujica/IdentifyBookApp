@@ -12,6 +12,11 @@
     <string name="manager_button_create_display">Create Display</string>
     <string name="display_name_hint">Display Name</string>
     <string name="display_button_finish_display">Done</string>
+    <string name="crop_button">Done</string>
+    <string name="searching">Searching...</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

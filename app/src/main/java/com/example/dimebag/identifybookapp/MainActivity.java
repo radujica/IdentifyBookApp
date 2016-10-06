@@ -9,13 +9,15 @@ import android.view.View;
 import android.widget.Button;
 
 /*Main TODO:
-  - copy OCR file with app
-
+ * - copy OCR file with app; AssetManager?
+ * - allow user to delete all saved images in 1 tap
+ * - add voice recog option
+ * - remove search fragment; should use APIs
  */
 
-public class ActivityMain extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "ActivityMain";
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_FIND_BOOK = 0;
 
     @Override
@@ -53,7 +55,7 @@ public class ActivityMain extends AppCompatActivity {
         buttonScanBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_findBook = new Intent(ActivityMain.this, ActivityFindBook.class);
+                Intent intent_findBook = new Intent(MainActivity.this, FindBookActivity.class);
                 //intent_scanBook.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //TODO: don't start findBook multiple times
                 startActivityForResult(intent_findBook, REQUEST_CODE_FIND_BOOK);
             }
@@ -66,7 +68,7 @@ public class ActivityMain extends AppCompatActivity {
         buttonSwitchToManager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_switchToManager = new Intent(ActivityMain.this, ActivityManager.class);
+                Intent intent_switchToManager = new Intent(MainActivity.this, ManagerActivity.class);
                 startActivity(intent_switchToManager);
             }
         });
@@ -77,7 +79,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_FIND_BOOK){
             if (resultCode == RESULT_OK) {
-                String isbn = data.getExtras().getString(ActivityFindBook.INTENT_EXTRA_ISBN);
+                String isbn = data.getExtras().getString(FindBookActivity.INTENT_EXTRA_ISBN);
                 Intent intentViewBookOnAmazon = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://www.amazon.com/s/field-keywords=" + isbn));
                 startActivity(intentViewBookOnAmazon);
@@ -91,5 +93,4 @@ public class ActivityMain extends AppCompatActivity {
             Log.w(TAG,"weird requestCode captured:  " + requestCode);
         }
     }
-
 }

@@ -25,9 +25,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.Design.NoActionBar">
         <activity
-            android:name=".ActivityMain"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityScanNFC"
+            android:name=".ScanNFCActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
@@ -45,19 +45,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityFindBook"
+            android:name=".FindBookActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Crop"
+            android:name=".CropActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityManager"
+            android:name=".ManagerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityBarcodeScanner"
+            android:name=".BarcodeScannerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityDisplay"
+            android:name=".DisplayActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -18,9 +18,9 @@ import java.io.IOException;
 
 //TODO: automatically start scanning; display result
 
-public class ActivityScanNFC extends AppCompatActivity {
+public class ScanNFCActivity extends AppCompatActivity {
 
-    private static final String TAG = "ActivityScanNFC";
+    private static final String TAG = "ScanNFCActivity";
     static final String INTENT_EXTRA_NUMBER = "number";
 
     private NfcAdapter nfcAdapter;

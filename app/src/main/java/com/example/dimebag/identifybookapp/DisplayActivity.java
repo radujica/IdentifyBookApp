@@ -31,7 +31,7 @@ import okhttp3.Response;
 
 //TODO: switch from arrayAdapter
 
-public class ActivityDisplay extends AppCompatActivity {
+public class DisplayActivity extends AppCompatActivity {
 
     private static final String TAG = "DisplayInfo";
     private static final String SERVER_RESULT_TAG = "result";
@@ -84,7 +84,7 @@ public class ActivityDisplay extends AppCompatActivity {
         if (extras == null) {
             displayName = "";
         } else {
-            displayName = extras.getString(ActivityManager.INTENT_EXTRA_DISPLAY_NAME);
+            displayName = extras.getString(ManagerActivity.INTENT_EXTRA_DISPLAY_NAME);
         }
     }
 
@@ -134,7 +134,7 @@ public class ActivityDisplay extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent_addBook = new Intent(ActivityDisplay.this,ActivityFindBook.class);
+                Intent intent_addBook = new Intent(DisplayActivity.this,FindBookActivity.class);
                 startActivityForResult(intent_addBook, REQUEST_CODE_FIND_BOOK);
             }
         });
@@ -146,7 +146,7 @@ public class ActivityDisplay extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_FIND_BOOK) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                String isbn = extras.getString(ActivityFindBook.INTENT_EXTRA_ISBN);
+                String isbn = extras.getString(FindBookActivity.INTENT_EXTRA_ISBN);
                 new UploadDisplay().execute(isbn);
             } else if (resultCode == RESULT_CANCELED) {
                 Log.i(TAG,"canceled getting book isbn for display use");
@@ -182,8 +182,8 @@ public class ActivityDisplay extends AppCompatActivity {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),json.toString());
 
             Request request = new Request.Builder()
-                    .header("Authorization", ActivityFindBook.SERVER_CREDENTIALS)
-                    .url(ActivityManager.SERVER_DISPLAY_DB_URL)
+                    .header("Authorization", FindBookActivity.SERVER_CREDENTIALS)
+                    .url(ManagerActivity.SERVER_DISPLAY_DB_URL)
                     .post(requestBody)
                     .build();
 
@@ -213,6 +213,14 @@ public class ActivityDisplay extends AppCompatActivity {
             }
         }
 
+        /* Example JSON data sent to server:
+         * {"display": {
+         *   "timestamp" : 1460973020,
+         *   "android_id" : "Android device id",
+         *   "display_name" : "china",
+         *   "book_ISBN" : "9789460038549"
+         *}}
+         */
         private DisplayRecord createDisplayRecord(String s) {
             DisplayRecord record = new DisplayRecord();
             try {

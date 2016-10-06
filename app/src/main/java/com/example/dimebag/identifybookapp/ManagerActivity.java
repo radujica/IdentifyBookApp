@@ -29,9 +29,9 @@ import okhttp3.Response;
 
 //TODO: add loading while getting displays from server
 
-public class ActivityManager extends AppCompatActivity {
+public class ManagerActivity extends AppCompatActivity {
 
-    private static final String TAG = "ActivityManager";
+    private static final String TAG = "ManagerActivity";
     private static final String DIALOG_TITLE = "title";
     private static final String SERVER_RESULT_TAG = "result";
     private static final String DISPLAY_CHOOSER_FRAG_TAG = "choose_display";
@@ -93,7 +93,7 @@ public class ActivityManager extends AppCompatActivity {
         buttonCreateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_createDisplay = new Intent(ActivityManager.this, ActivityDisplay.class);
+                Intent intent_createDisplay = new Intent(ManagerActivity.this, DisplayActivity.class);
                 startActivity(intent_createDisplay);
             }
         });
@@ -110,7 +110,7 @@ public class ActivityManager extends AppCompatActivity {
                     PickDisplayDialogFragment alertDialog = PickDisplayDialogFragment.newInstance("Displays",db.getDisplayNames());
                     alertDialog.show(fm, DISPLAY_CHOOSER_FRAG_TAG);
                 } else {
-                    Toast.makeText(ActivityManager.this,"No displays available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManagerActivity.this,"No displays available",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,7 +127,7 @@ public class ActivityManager extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .header("Authorization", ActivityFindBook.SERVER_CREDENTIALS)
+                    .header("Authorization", FindBookActivity.SERVER_CREDENTIALS)
                     .url(SERVER_DISPLAY_DB_URL)
                     .get()
                     .build();
@@ -221,18 +221,9 @@ public class ActivityManager extends AppCompatActivity {
             return alertDialogBuilder.create();
         }
 
-        /*
-        private String[] createDisplayNamesArray(List<String> displayNamesList) {
-            final String[] displayNames = new String[displayNamesList.size()];
-            for (int i=0;i<displayNamesList.size();i++) {
-                displayNames[i] = displayNamesList.get(i);
-            }
-            return displayNames;
-        } */
-
         /** create the intent and start the activity to view display @param which */
         private void createIntentViewDisplay(String[] displayNames, int which) {
-            Intent intent_viewDisplay = new Intent(getContext(), ActivityDisplay.class);
+            Intent intent_viewDisplay = new Intent(getContext(), DisplayActivity.class);
             intent_viewDisplay.putExtra(INTENT_EXTRA_DISPLAY_NAME, displayNames[which]);
             startActivity(intent_viewDisplay);
         }

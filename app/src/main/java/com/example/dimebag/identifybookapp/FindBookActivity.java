@@ -2,6 +2,7 @@ package com.example.dimebag.identifybookapp;
 
 /*TODO:
  *   - implement server on raspberry pi
+ *   - fix permissions storage (and coupled with camera!)
  *
  * Possible:
  *   - switch to instance id? String iid = InstanceID.getInstance(context).getId()
@@ -60,7 +61,8 @@ public class FindBookActivity extends AppCompatActivity implements SearchFragmen
     private static final String FRAGMENT_TAG = "SearchFragment";
     private static final String ERROR_NOT_FOUND = "Could not find book. Please try again or use another search option";
     private static final String ERROR_REVERSE_IMAGE_SEARCH = "Error connecting to the internet. Please try again";
-    private static final int PERMISSION_CAMERA = 100000;
+    private static final int PERMISSION_CAMERA = 10000;
+    private static final int PERMISSION_STORAGE = 10001;
     private static final int REQUEST_CODE_BARCODE = 100;
     private static final int REQUEST_CODE_NFC_SCAN = 101;
     private static final int REQUEST_CODE_TAKE_PHOTO = 102;
@@ -153,6 +155,7 @@ public class FindBookActivity extends AppCompatActivity implements SearchFragmen
         buttonScanISBN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkStoragePermission();
                 createIntentTakePhoto(OCR);
             }
         });
@@ -164,6 +167,7 @@ public class FindBookActivity extends AppCompatActivity implements SearchFragmen
         buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkStoragePermission();
                 createIntentTakePhoto(REVERSE_IMAGE_SEARCH);
             }
         });
@@ -404,6 +408,15 @@ public class FindBookActivity extends AppCompatActivity implements SearchFragmen
         }
     }
 
+    private void checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(FindBookActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(FindBookActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_STORAGE);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -416,6 +429,18 @@ public class FindBookActivity extends AppCompatActivity implements SearchFragmen
                         startActivityForResult(new Intent(FindBookActivity.this, BarcodeScannerActivity.class),REQUEST_CODE_BARCODE);
                     } else {
                         Log.w(TAG,"something weird happened when requesting camera permission: " + Arrays.toString(grantResults));
+                        finish();
+                    }
+                }
+                break;
+            case PERMISSION_STORAGE:
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                        Toast.makeText(FindBookActivity.this, "This functionality requires to store a photo", Toast.LENGTH_LONG).show();
+                    } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                    } else {
+                        Log.w(TAG,"something weird happened when requesting storage permission: " + Arrays.toString(grantResults));
                         finish();
                     }
                 }

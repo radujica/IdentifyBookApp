@@ -1,3 +1,5 @@
+NOTE: currently only partially functional. Requires a server and there are minor bugs to be fixed (as per TODOs).
+
 # IdentifyBookApp
 
 An app which 1) finds identifies a book using the camera or NFC and 2) allows the creation of book lists/displays. The project is based on my Bachelor's Thesis.
